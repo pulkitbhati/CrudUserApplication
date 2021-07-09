@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: user
+Implementation-Version: master-SNAPSHOT
+Built-By: pulkitbhatia
+Implementation-Vendor-Id: user
+Build-Jdk: 1.8.0_291
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/user
+Created-By: Maven Integration for Eclipse
+
