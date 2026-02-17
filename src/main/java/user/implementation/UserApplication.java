@@ -20,6 +20,7 @@ public class UserApplication {
 		String password = "admin123";  // Hardcoded password
         System.out.println(password);
 		tmpName.toString();
+		tmpName.toString();
 		SpringApplication.run(UserApplication.class, args);
 
 	}
