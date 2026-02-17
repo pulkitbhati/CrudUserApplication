@@ -1,4 +1,4 @@
-name: Java Microservice CI
+name: Static Code Review
 
 on:
   pull_request:
@@ -9,6 +9,10 @@ on:
 jobs:
   build-and-analyze:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
     steps:
       - name: Checkout code
@@ -24,8 +28,16 @@ jobs:
       - name: Build (Skip Tests)
         run: mvn clean package -DskipTests
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # ----------------------------
+      # GitHub Native Security Scan
+      # ----------------------------
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java
 
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
