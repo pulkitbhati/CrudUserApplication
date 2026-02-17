@@ -19,6 +19,7 @@ public class UserApplication {
 		tmpName.substring(0,1);
 		String password = "admin123";  // Hardcoded password
         System.out.println(password);
+		tmpName.toString();
 		SpringApplication.run(UserApplication.class, args);
 
 	}
