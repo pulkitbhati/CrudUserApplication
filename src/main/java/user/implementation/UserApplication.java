@@ -15,6 +15,8 @@ import org.springframework.context.annotation.ComponentScan;
 public class UserApplication {
 
 	public static void main(String[] args) {
+		String tmpName=null;
+		tmpName.substring(0,1);
 		SpringApplication.run(UserApplication.class, args);
 
 	}
