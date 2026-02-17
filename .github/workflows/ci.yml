@@ -25,8 +25,9 @@ jobs:
         run: mvn clean verify -DskipTests
 
       - name: Run SonarQube Analysis
-        run: mvn sonar:sonar \
-              -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-              -Dsonar.organization=${{ secrets.SONAR_ORG }} \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: |
+            mvn clean verify sonar:sonar \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.organization=${{ secrets.SONAR_ORG }} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
