@@ -11,6 +11,7 @@ public class VulnerableSQL {
 
         Connection conn = DriverManager.getConnection(
                 "jdbc:h2:mem:testdb", "sa", "");
+        // code
 
         Statement stmt = conn.createStatement();
 
