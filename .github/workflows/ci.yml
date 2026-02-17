@@ -34,3 +34,14 @@ jobs:
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=$SONAR_TOKEN \
           -Dsonar.qualitygate.wait=true
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+        
+      - name: Print Sonar Issues
+        if: always()
+        run: |
+          curl -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/issues/search?componentKeys=${{ secrets.SONAR_PROJECT_KEY }}&resolved=false" \
+            | jq '.issues[] | {severity, message, component, line}'
+
