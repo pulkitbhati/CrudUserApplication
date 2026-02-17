@@ -1,10 +1,8 @@
-name: Build & SonarQube Analysis
+name: Build & SonarCloud Analysis
 
 on:
-  pull_request:
   push:
-    branches:
-      - '**'
+  pull_request:
 
 jobs:
   build:
@@ -27,21 +25,22 @@ jobs:
       - name: Run Sonar Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn clean verify sonar:sonar -Dsonar.branch.name=${GITHUB_REF_NAME} \
-          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-          -Dsonar.organization=${{ secrets.SONAR_ORG }} \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=$SONAR_TOKEN \
+        run: >
+          mvn sonar:sonar
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+          -Dsonar.organization=${{ secrets.SONAR_ORG }}
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.branch.name=${GITHUB_REF_NAME}
           -Dsonar.qualitygate.wait=true
 
       - name: Install jq
-        run: sudo apt-get install -y jq
-        
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Print Sonar Issues
         if: always()
         run: |
+          echo "Branch: ${GITHUB_REF_NAME}"
           curl -u ${{ secrets.SONAR_TOKEN }}: \
-            "https://sonarcloud.io/api/issues/search?componentKeys=${{ secrets.SONAR_PROJECT_KEY }}&resolved=false" \
+            "https://sonarcloud.io/api/issues/search?componentKeys=${{ secrets.SONAR_PROJECT_KEY }}&branch=${GITHUB_REF_NAME}&resolved=false" \
             | jq '.issues[] | {severity, message, component, line}'
-
