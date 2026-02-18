@@ -5,6 +5,7 @@ on:
     types: [opened, edited, synchronize, reopened]
 
 permissions:
+  contents: read
   pull-requests: read
 
 jobs:
@@ -15,16 +16,12 @@ jobs:
       - name: Validate PR Title
         uses: amannn/action-semantic-pull-request@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          # Enforce ticket ID format at beginning
           subjectPattern: '^(ADMIN|BIZ)-[0-9]+: .+'
           subjectPatternError: |
-            ❌ Invalid PR title format.
+            ❌ PR title must start with a valid ticket ID.
 
-            Required format:
-            ADMIN-1234: Short description
-            BIZ-5678: Short description
-
-            Example:
-            ADMIN-1023: Fix login validation
+            Format required:
+            ADMIN-1234: Your description
+            BIZ-5678: Your description
