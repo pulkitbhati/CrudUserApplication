@@ -1,0 +1,20 @@
+name: PR Title Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate PR Title
+        uses: amannn/action-semantic-pull-request@v5
+        with:
+          subjectPattern: '^(ADMIN|BIZ)-[0-9]+: .+'
+          subjectPatternError: |
+            ❌ PR title must start with a valid ticket ID.
+            Format required:
+            ADMIN-1234: Your description
+            BIZ-5678: Your description
