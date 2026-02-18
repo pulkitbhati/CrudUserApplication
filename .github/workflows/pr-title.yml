@@ -4,24 +4,23 @@ on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
 
-permissions:
-  contents: read
-  pull-requests: read
-
 jobs:
-  validate-pr-title:
+  validate-title:
     runs-on: ubuntu-latest
 
     steps:
       - name: Validate PR Title
-        uses: amannn/action-semantic-pull-request@v5
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          subjectPattern: '^(ADMIN|BIZ)-[0-9]+: .+'
-          subjectPatternError: |
-            ❌ PR title must start with a valid ticket ID.
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $TITLE"
 
-            Format required:
-            ADMIN-1234: Your description
-            BIZ-5678: Your description
+          if [[ ! "$TITLE" =~ ^(ADMIN|BIZ)-[0-9]+:\ .+ ]]; then
+            echo "❌ Invalid PR title format."
+            echo ""
+            echo "Required format:"
+            echo "ADMIN-1234: Short description"
+            echo "BIZ-5678: Short description"
+            exit 1
+          fi
+
+          echo "✅ PR title format is valid."
