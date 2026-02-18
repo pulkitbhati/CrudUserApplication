@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, edited, synchronize]
 
+permissions:
+  pull-requests: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,6 +15,7 @@ jobs:
       - name: Validate PR Title
         uses: amannn/action-semantic-pull-request@v5
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           subjectPattern: '^(ADMIN|BIZ)-[0-9]+: .+'
           subjectPatternError: |
             ❌ PR title must start with a valid ticket ID.
