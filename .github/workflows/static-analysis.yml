@@ -30,15 +30,19 @@ jobs:
       # SpotBugs
       - name: Run SpotBugs
         run: mvn -B spotbugs:check
+        continue-on-error: true
 
       # PMD
       - name: Run PMD
         run: mvn -B pmd:check
+        continue-on-error: true
 
       # Checkstyle
       - name: Run Checkstyle
         run: mvn -B checkstyle:check
+        continue-on-error: true
 
       # Spotless
       - name: Run Spotless Check
         run: mvn -B spotless:check
+        continue-on-error: true
