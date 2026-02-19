@@ -14,7 +14,7 @@ jobs:
           TITLE="${{ github.event.pull_request.title }}"
           echo "PR Title: $TITLE"
 
-          if [[ ! "$TITLE" =~ ^(ADMIN|BIZ)-[0-9]+:\ .+ ]]; then
+          if [[ ! "$TITLE" =~ ^(ADMIN|BIZ)-[0-9]+\s*:\s.+  ]]; then
             echo "❌ Invalid PR title format."
             echo ""
             echo "Required format:"
