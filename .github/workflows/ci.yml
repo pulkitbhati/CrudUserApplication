@@ -1,4 +1,4 @@
-name: Build & SonarCloud Analysis
+name: Build Analysis
 
 on:
   push:
