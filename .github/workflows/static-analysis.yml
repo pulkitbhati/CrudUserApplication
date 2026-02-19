@@ -1,0 +1,48 @@
+name: Build & Static Analysis
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      # Full build including tests
+      - name: Build project
+        run: mvn -B clean verify
+
+      # SpotBugs
+      - name: Run SpotBugs
+        run: mvn -B spotbugs:check
+        continue-on-error: true
+
+      # PMD
+      - name: Run PMD
+        run: mvn -B pmd:check
+        continue-on-error: true
+
+      # Checkstyle
+      - name: Run Checkstyle
+        run: mvn -B checkstyle:check
+        continue-on-error: true
+
+      # Spotless
+      - name: Run Spotless Check
+        run: mvn -B spotless:check
+        continue-on-error: true
