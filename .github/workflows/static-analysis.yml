@@ -3,7 +3,7 @@ name: Build & Static Analysis
 on:
   pull_request:
   push:
-    branches: [ "main" ]
+    branches: [ "copyOfMain" ]
 
 permissions:
   contents: read
