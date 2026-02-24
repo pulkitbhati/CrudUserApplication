@@ -2,7 +2,7 @@ name: 'Dependency review'
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "copyOfMain" ]
 
 concurrency:
   group: dependency-review-${{ github.ref }}
